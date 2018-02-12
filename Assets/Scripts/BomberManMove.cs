@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,6 +52,7 @@ public class BomberManMove : MonoBehaviour
         {
             animator.SetBool(Walk, false);
             body.velocity = Vector2.zero;
+            //transform.position = new Vector3(Mathf.Round(transform.position.x) - 1, Mathf.Round(transform.position.y) - 1, 0);
         }
     }
 }

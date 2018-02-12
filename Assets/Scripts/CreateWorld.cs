@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class CreateWorld : MonoBehaviour
 {
-    public int columns = 17;
+    public int columns = 18;
     public int lines = 9;
     public GameObject block;
 
     private void Awake()
     {
-        var camera = GetComponent<Camera>();
-        Vector3 worldPosition = camera.ScreenToWorldPoint(new Vector3(0, camera.pixelHeight, camera.nearClipPlane));
-
-        worldPosition.z = 0;
-        worldPosition.x += 0.5f;
-        worldPosition.y -= 0.5f;
+        Vector3 worldPosition = new Vector3(-9.5f, 5.5f, 0);
 
         // First Line
         for (int i = 0; i < columns + 1; i++)
