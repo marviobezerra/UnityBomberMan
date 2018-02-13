@@ -41,7 +41,7 @@ public class CreateWorld : MonoBehaviour
                 // Gress
                 Instantiate(grees, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
 
-                // Block the start blocks
+                // Don't create on the start blocks
                 if ((line == 1 && column == 1) || (line == 1 && column == 2) || (line == 2 && column == 1))
                 {
                     continue;
@@ -50,7 +50,7 @@ public class CreateWorld : MonoBehaviour
                 // Destructible tiles
                 if (randGen.Next(0, 100) < dificultLevel)
                 {
-                    Instantiate(tileDestructable, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
+                    //Instantiate(tileDestructable, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
                 }
             }
         }
