@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BomberManMove : MonoBehaviour
 {
+    public bool canCreateBomb = true;
+    public GameObject bomb;
     public float moveSpeed = 5;
     private Animator animator;
     private Rigidbody2D body;
@@ -16,7 +15,7 @@ public class BomberManMove : MonoBehaviour
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
     }
-    
+
     void Update()
     {
         if (Input.GetKey("up"))
@@ -44,7 +43,7 @@ public class BomberManMove : MonoBehaviour
         else if (Input.GetKey("left"))
         {
             body.velocity = new Vector2(-moveSpeed, 0);
-            
+
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 3);
         }
@@ -52,7 +51,34 @@ public class BomberManMove : MonoBehaviour
         {
             animator.SetBool(Walk, false);
             body.velocity = Vector2.zero;
-            //transform.position = new Vector3(Mathf.Round(transform.position.x) - 1, Mathf.Round(transform.position.y) - 1, 0);
+        }
+
+        if (Input.GetKeyDown("space") && canCreateBomb)
+        {
+            var bombX = Mathf.RoundToInt(transform.position.x);
+            var bombY = Mathf.RoundToInt(transform.position.y);
+
+            if (bombX > Constants.WorldBeginX && bombY < Constants.WorldBeginY)
+            {
+                Instantiate(bomb, new Vector3(bombX, bombY, 0), Quaternion.identity);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bomb")
+        {
+            canCreateBomb = false;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bomb")
+        {
+            canCreateBomb = true;
+            collision.gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
         }
     }
 }

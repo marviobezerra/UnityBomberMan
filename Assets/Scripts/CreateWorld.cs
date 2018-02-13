@@ -1,54 +1,58 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CreateWorld : MonoBehaviour
 {
-    public int columns = 18;
-    public int lines = 9;
-    public GameObject block;
+    public GameObject tileFixed;
+    public GameObject tileDestructable;
+    public GameObject grees;
+
+    private int dificultLevel = 60;
+    private System.Random randGen;
 
     private void Awake()
     {
-        Vector3 worldPosition = new Vector3(-9.5f, 5.5f, 0);
+        randGen = new System.Random();
 
-        // First Line
-        for (int i = 0; i < columns + 1; i++)
+        for (int line = 0; line < Constants.GridLines + 1; line++)
         {
-            Instantiate(block, new Vector3(worldPosition.x + i, worldPosition.y, worldPosition.z), Quaternion.identity);
-        }
-
-        // Lines
-        for (int i = 0; i < lines - 1; i++)
-        {
-            Instantiate(block, new Vector3(worldPosition.x, worldPosition.y - i - 1, worldPosition.z), Quaternion.identity);
-            Instantiate(block, new Vector3(worldPosition.x + columns, worldPosition.y - i - 1, worldPosition.z), Quaternion.identity);
-        }
-
-        // Last line
-        for (int i = 0; i < columns + 1; i++)
-        {
-            Instantiate(block, new Vector3(worldPosition.x + i, worldPosition.y - lines, worldPosition.z), Quaternion.identity);
-        }
-
-        // Midle blocks
-        for (int i = 0; i < columns + 1; i++)
-        {
-            if (i == 0 || i == columns || i % 2 != 0)
+            for (int column = 0; column < Constants.GridColumns + 1; column++)
             {
-                continue;
-            }
+                // First and Last Line
+                if (line == 0 || line == Constants.GridLines)
+                {
+                    Instantiate(tileFixed, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
+                    continue;
+                }
 
-            for (int j = 0; j < lines - 1; j++)
-            {
-                if (j == 0 || j == columns || j % 2 == 0)
+                // First and Last Column
+                if (column == 0 || column == Constants.GridColumns)
+                {
+                    Instantiate(tileFixed, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
+                    continue;
+                }
+
+                // Fixed Tiles
+                if (line > 1 && column > 1 && line % 2 == 0 && column % 2 == 0)
+                {
+                    Instantiate(tileFixed, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
+                    continue;
+                }
+
+                // Gress
+                Instantiate(grees, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
+
+                // Block the start blocks
+                if ((line == 1 && column == 1) || (line == 1 && column == 2) || (line == 2 && column == 1))
                 {
                     continue;
                 }
 
-                Instantiate(block, new Vector3(worldPosition.x + i, worldPosition.y - j - 1, worldPosition.z), Quaternion.identity);
+                // Destructible tiles
+                if (randGen.Next(0, 100) < dificultLevel)
+                {
+                    Instantiate(tileDestructable, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
+                }
             }
         }
-
     }
 }
