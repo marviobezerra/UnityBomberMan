@@ -6,7 +6,7 @@ public class CreateWorld : MonoBehaviour
     public GameObject tileDestructable;
     public GameObject grees;
 
-    private int dificultLevel = 60;
+    private int dificultLevel = 30;
     private System.Random randGen;
 
     private void Awake()

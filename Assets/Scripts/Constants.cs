@@ -7,5 +7,5 @@
     public const float WorldBeginY = 6f;
 
     public const float WorldEndX = WorldBeginX + GridColumns;
-    public const float WorldEndY = WorldBeginY + GridLines;
+    public const float WorldEndY = WorldBeginY - GridLines;
 }

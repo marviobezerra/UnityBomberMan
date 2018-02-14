@@ -18,21 +18,44 @@ public class Bomb : MonoBehaviour
         // Explosion Midle
         Instantiate(explosionMidle, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
 
+        var blockHorizontal = (transform.position.x + 1) % 2 == 0 && (transform.position.y) % 2 == 0;
+        var blockVertical = (transform.position.x) % 2 == 0 && (transform.position.y + 1) % 2 == 0;
+
         // Explosion Horizontal Right
-        Instantiate(explosionRadio, new Vector3(transform.position.x + 1, transform.position.y, 0), Quaternion.identity);
-        Instantiate(explosionRadioEdge, new Vector3(transform.position.x + 2, transform.position.y, 0), Quaternion.identity);
+        if (transform.position.x + 1 < Constants.WorldEndX && !blockHorizontal)
+        {
+            Instantiate(explosionRadio, new Vector3(transform.position.x + 1, transform.position.y, 0), Quaternion.identity);
+
+            if (transform.position.x + 2 < Constants.WorldEndX)
+                Instantiate(explosionRadioEdge, new Vector3(transform.position.x + 2, transform.position.y, 0), Quaternion.identity);
+        }
 
         // Explosion Horizontal Letf
-        Instantiate(explosionRadio, new Vector3(transform.position.x - 1, transform.position.y, 0), Quaternion.Euler(0, 180, 0));
-        Instantiate(explosionRadioEdge, new Vector3(transform.position.x - 2, transform.position.y, 0), Quaternion.Euler(0, 180, 0));
+        if (transform.position.x - 1 > Constants.WorldBeginX && !blockHorizontal)
+        {
+            Instantiate(explosionRadio, new Vector3(transform.position.x - 1, transform.position.y, 0), Quaternion.Euler(0, 0, 180));
+
+            if (transform.position.x - 2 > Constants.WorldBeginX)
+                Instantiate(explosionRadioEdge, new Vector3(transform.position.x - 2, transform.position.y, 0), Quaternion.Euler(0, 0, 180));
+        }
 
         // Explosion Vertical Top
-        Instantiate(explosionRadio, new Vector3(transform.position.x, transform.position.y - 1, 0), Quaternion.Euler(0, 0, -90));
-        Instantiate(explosionRadioEdge, new Vector3(transform.position.x, transform.position.y - 2, 0), Quaternion.Euler(0, 0, -90));
+        if (transform.position.y + 1 < Constants.WorldBeginY && !blockVertical)
+        {
+            Instantiate(explosionRadio, new Vector3(transform.position.x, transform.position.y + 1, 0), Quaternion.Euler(0, 0, 90));
+
+            if (transform.position.y + 2 < Constants.WorldBeginY)
+                Instantiate(explosionRadioEdge, new Vector3(transform.position.x, transform.position.y + 2, 0), Quaternion.Euler(0, 0, 90));
+        }
 
         // Explosion Vertical Down
-        Instantiate(explosionRadio, new Vector3(transform.position.x, transform.position.y + 1, 0), Quaternion.Euler(0, 0, 90));
-        Instantiate(explosionRadioEdge, new Vector3(transform.position.x, transform.position.y + 2, 0), Quaternion.Euler(0, 0, 90));
+        if (transform.position.y - 1 > Constants.WorldEndY && !blockVertical)
+        {
+            Instantiate(explosionRadio, new Vector3(transform.position.x, transform.position.y - 1, 0), Quaternion.Euler(0, 0, -90));
+
+            if (transform.position.y - 2 > Constants.WorldEndY)
+                Instantiate(explosionRadioEdge, new Vector3(transform.position.x, transform.position.y - 2, 0), Quaternion.Euler(0, 0, -90));
+        }
 
         Destroy(gameObject);
     }
