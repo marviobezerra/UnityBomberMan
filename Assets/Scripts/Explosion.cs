@@ -11,7 +11,7 @@ public class Explosion : MonoBehaviour
 
     void Start()
     {
-        Invoke("Remove", 2);
+        Invoke("Remove", 1);
     }
 
     void Remove()
@@ -31,12 +31,12 @@ public class Explosion : MonoBehaviour
         if (collision.gameObject.tag == "TileDestructable")
         {
             Constants.tiles--;
+            Debug.Log("Tiles left: " + Constants.tiles);
 
             if (Constants.tiles <= 0)
             {
                 Constants.canMove = false;
-                Instantiate(win);
-                return;
+                Instantiate(win);               
             }
 
             if (randGen == null)
@@ -44,7 +44,7 @@ public class Explosion : MonoBehaviour
                 randGen = new System.Random();
             }
 
-            if (randGen.Next(0, 100) < Constants.dificultLevel * 2)
+            if (Constants.tiles > 0 && randGen.Next(0, 100) < Constants.dificultLevel * 2)
             {
                 var index = randGen.Next(0, powerUps.Length);
                 var item = powerUps[index];

@@ -1,14 +1,80 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CreateWorld : MonoBehaviour
 {
     public GameObject tileFixed;
     public GameObject tileDestructable;
     public GameObject grees;
+    public GameObject player;
+    public List<GameObject> players;
 
     private System.Random randGen;
 
+    private void createUser()
+    {
+        if (players.Count >= 4)
+        {
+            return;
+        }
+
+        var newPlayerId = players.Count;
+        Vector3 newPosition = new Vector3(-9, 6, 0);
+        Color color = Color.white;
+
+        switch (newPlayerId)
+        {
+            case 0:
+                newPosition = new Vector3(-9, 6, 0);
+                color = Color.white;
+                break;
+            case 1:
+                newPosition = new Vector3(9, 6, 0);
+                color = Color.yellow;
+                break;
+            case 2:
+                newPosition = new Vector3(-9, -5, 0);
+                color = Color.red;
+                break;
+            case 3:
+                newPosition = new Vector3(9, -5, 0);
+                color = Color.green;
+                break;
+            default:
+                break;
+        }
+
+        var newPlayer = Instantiate(player, newPosition, Quaternion.identity);
+
+        newPlayer.GetComponent<SpriteRenderer>().color = color;
+        newPlayer.GetComponent<Player>().powerUps.playerId = newPlayerId;
+
+        if (players == null)
+        {
+            players = new List<GameObject>();
+        }
+
+        players.Add(newPlayer);
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("+") || Input.GetKeyDown("="))
+        {
+            createUser();
+        }
+    }
+
     private void Awake()
+    {
+        if (players.Count == 0)
+        {
+            createUser();
+        }
+    }
+
+    private void Start()
     {
         randGen = new System.Random();
 
@@ -40,8 +106,26 @@ public class CreateWorld : MonoBehaviour
                 // Gress
                 Instantiate(grees, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
 
-                // Don't create on the start blocks
+                // Don't create on the start blocks for player 1
                 if ((line == 1 && column == 1) || (line == 1 && column == 2) || (line == 2 && column == 1))
+                {
+                    continue;
+                }
+
+                // Don't create on the start blocks for player 2
+                if ((line == 1 && column == Constants.GridColumns - 1) || (line == 1 && column == Constants.GridColumns - 2) || (line == 2 && column == Constants.GridColumns - 1))
+                {
+                    continue;
+                }
+
+                // Don't create on the start blocks for player 3
+                if ((line == Constants.GridLines - 1 && column == 1) || (line == Constants.GridLines - 1 && column == 2) || (line == Constants.GridLines - 2 && column == 1))
+                {
+                    continue;
+                }
+
+                // Don't create on the start blocks for player 4
+                if ((line == Constants.GridLines - 1 && column == Constants.GridColumns - 1) || (line == Constants.GridLines - 1 && column == Constants.GridColumns - 2) || (line == Constants.GridLines - 2 && column == Constants.GridColumns - 1))
                 {
                     continue;
                 }

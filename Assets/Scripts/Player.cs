@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BomberManMove : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public bool canCreateBomb = true;
+    public PlayerPowersUps powerUps = new PlayerPowersUps();
     public GameObject bomb;
-    public float moveSpeed = 5;
     private Animator animator;
     private Rigidbody2D body;
+
     const string Position = "Position";
     const string Walk = "Walk";
 
-    void Awake()
+
+    private void Start()
     {
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
@@ -21,6 +23,7 @@ public class BomberManMove : MonoBehaviour
     {
         if (!Constants.canMove)
         {
+
             if (Input.GetKey("space"))
             {
                 SceneManager.LoadScene("GameScene");
@@ -29,31 +32,35 @@ public class BomberManMove : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey("up"))
+        var horizontal = Input.GetAxis(powerUps.HorizontalAxis);
+        var vertical = Input.GetAxis(powerUps.VerticalAxis);
+        var fire = Input.GetAxis(powerUps.FireAxis);
+
+        if (vertical > 0)
         {
-            body.velocity = new Vector2(0, moveSpeed * Constants.accelerator);
+            body.velocity = new Vector2(0, powerUps.moveSpeed);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 0);
         }
-        else if (Input.GetKey("right"))
+        else if (horizontal > 0)
         {
-            body.velocity = new Vector2(moveSpeed * Constants.accelerator, 0);
+            body.velocity = new Vector2(powerUps.moveSpeed, 0);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 1);
 
         }
-        else if (Input.GetKey("down"))
+        else if (vertical < 0)
         {
-            body.velocity = new Vector2(0, -moveSpeed * Constants.accelerator);
+            body.velocity = new Vector2(0, -powerUps.moveSpeed);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 2);
         }
-        else if (Input.GetKey("left"))
+        else if (horizontal < 0)
         {
-            body.velocity = new Vector2(-moveSpeed * Constants.accelerator, 0);
+            body.velocity = new Vector2(-powerUps.moveSpeed, 0);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 3);
@@ -64,14 +71,15 @@ public class BomberManMove : MonoBehaviour
             body.velocity = Vector2.zero;
         }
 
-        if (Input.GetKeyDown("space") && canCreateBomb && Constants.canCreateBomb)
+        if (fire > 0 && canCreateBomb && powerUps.canCreateBomb)
         {
             var bombX = Mathf.RoundToInt(transform.position.x);
             var bombY = Mathf.RoundToInt(transform.position.y);
 
             if (bombX > Constants.WorldBeginX && bombY < Constants.WorldBeginY)
             {
-                Instantiate(bomb, new Vector3(bombX, bombY, 0), Quaternion.identity);
+                var newBomb = Instantiate(bomb, new Vector3(bombX, bombY, 0), Quaternion.identity);
+                newBomb.GetComponent<Bomb>().setPlayer(this);
             }
         }
     }

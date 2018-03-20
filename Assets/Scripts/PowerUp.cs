@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum PowerUpType
 {
@@ -18,19 +16,21 @@ public class PowerUp : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            var player = collision.GetComponent<Player>();
+
             switch (powerUp)
             {
                 case PowerUpType.Skull:
-                    Constants.PowerSkull();
+                    player.powerUps.PowerSkull();
                     break;
                 case PowerUpType.ExtraBomb:
-                    Constants.PowerExtraBomb();
+                    player.powerUps.PowerExtraBomb();
                     break;
                 case PowerUpType.ExplosionExpander:
-                    Constants.PowerExplosionExpander();
+                    player.powerUps.PowerExplosionExpander();
                     break;
                 case PowerUpType.Accelerator:
-                    Constants.PowerUpAccelerator();
+                    player.powerUps.PowerUpAccelerator();
                     break;
                 default:
                     break;
@@ -38,5 +38,11 @@ public class PowerUp : MonoBehaviour
 
             Destroy(gameObject);
         }
+
+        //if (collision.gameObject.tag == "Explosion")
+        //{
+        //    Destroy(gameObject);
+
+        //}
     }
 }
