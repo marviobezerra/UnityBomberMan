@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BomberManMove : MonoBehaviour
 {
@@ -16,18 +17,28 @@ public class BomberManMove : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        if (!Constants.canMove)
+        {
+            if (Input.GetKey("space"))
+            {
+                SceneManager.LoadScene("GameScene");
+            }
+
+            return;
+        }
+
         if (Input.GetKey("up"))
         {
-            body.velocity = new Vector2(0, moveSpeed);
+            body.velocity = new Vector2(0, moveSpeed * Constants.accelerator);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 0);
         }
         else if (Input.GetKey("right"))
         {
-            body.velocity = new Vector2(moveSpeed, 0);
+            body.velocity = new Vector2(moveSpeed * Constants.accelerator, 0);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 1);
@@ -35,14 +46,14 @@ public class BomberManMove : MonoBehaviour
         }
         else if (Input.GetKey("down"))
         {
-            body.velocity = new Vector2(0, -moveSpeed);
+            body.velocity = new Vector2(0, -moveSpeed * Constants.accelerator);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 2);
         }
         else if (Input.GetKey("left"))
         {
-            body.velocity = new Vector2(-moveSpeed, 0);
+            body.velocity = new Vector2(-moveSpeed * Constants.accelerator, 0);
 
             animator.SetBool(Walk, true);
             animator.SetInteger(Position, 3);
@@ -53,7 +64,7 @@ public class BomberManMove : MonoBehaviour
             body.velocity = Vector2.zero;
         }
 
-        if (Input.GetKeyDown("space") && canCreateBomb)
+        if (Input.GetKeyDown("space") && canCreateBomb && Constants.canCreateBomb)
         {
             var bombX = Mathf.RoundToInt(transform.position.x);
             var bombY = Mathf.RoundToInt(transform.position.y);

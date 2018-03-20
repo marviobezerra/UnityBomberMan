@@ -21,10 +21,11 @@ GameObject:
   - component: {fileID: 4997800657636062}
   - component: {fileID: 212864137672045514}
   - component: {fileID: 61294375387177418}
+  - component: {fileID: 50513532357945236}
   - component: {fileID: 114062996981738016}
   m_Layer: 0
   m_Name: ExplosionRadiusEdge
-  m_TagString: Untagged
+  m_TagString: Explosion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,12 +37,32 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1412438978243698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.2993417, y: 2.0386074, z: 0}
   m_LocalScale: {x: 6.5, y: 6.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50513532357945236
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1412438978243698}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!61 &61294375387177418
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -54,7 +75,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0018179677, y: -0.0032723397}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -65,7 +86,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 0.11564163, y: 0.11564165}
   m_EdgeRadius: 0
 --- !u!114 &114062996981738016
 MonoBehaviour:
@@ -78,6 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac71c277a356e446bbdd298d2d32d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  win: {fileID: 1260972769797080, guid: 9e5477e5ccfd094428191d5ecb5a0379, type: 2}
+  lose: {fileID: 1868002853045822, guid: d0def7994f1d2054bb143d40b755e7e8, type: 2}
+  powerUps:
+  - {fileID: 1754406717220972, guid: adafb647aa140454d8a431efca4c3552, type: 2}
+  - {fileID: 1672530025316644, guid: 424acb917ed1640499e8594d8d96ec7d, type: 2}
+  - {fileID: 1543626928943028, guid: 10e8f389e4464f949956e79c1f5c724e, type: 2}
+  - {fileID: 1103915151944636, guid: 2c96ef7991a6aac42a631265185c6429, type: 2}
 --- !u!212 &212864137672045514
 SpriteRenderer:
   m_ObjectHideFlags: 1

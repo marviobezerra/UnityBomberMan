@@ -6,7 +6,6 @@ public class CreateWorld : MonoBehaviour
     public GameObject tileDestructable;
     public GameObject grees;
 
-    private int dificultLevel = 30;
     private System.Random randGen;
 
     private void Awake()
@@ -48,11 +47,14 @@ public class CreateWorld : MonoBehaviour
                 }
 
                 // Destructible tiles
-                if (randGen.Next(0, 100) < dificultLevel)
+                if (randGen.Next(0, 100) < Constants.dificultLevel)
                 {
-                    //Instantiate(tileDestructable, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
+                    Constants.tiles++;
+                    Instantiate(tileDestructable, new Vector3(Constants.WorldBeginX + column, Constants.WorldBeginY - line, 0), Quaternion.identity);
                 }
             }
         }
+
+        Constants.canMove = true;
     }
 }
